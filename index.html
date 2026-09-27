@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>Uber Ride Receipt</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,6 +22,7 @@
       font-family: 'Roboto', Arial, Helvetica, sans-serif;
       color: #000000;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     .app-wrapper {
@@ -66,12 +67,10 @@
       display: flex;
       gap: 8px;
       margin-bottom: 16px;
-      flex-wrap: wrap;
     }
 
     .btn-preset {
       flex: 1;
-      min-width: 140px;
       padding: 7px 10px;
       font-size: 12px;
       font-weight: 500;
@@ -106,13 +105,11 @@
       display: flex;
       gap: 10px;
       margin-bottom: 10px;
-      flex-wrap: wrap;
     }
 
     .field-row .field-group {
       flex: 1;
       margin-bottom: 0;
-      min-width: 140px;
     }
 
     label {
@@ -166,6 +163,9 @@
       background-color: #262626;
     }
 
+    /* =========================================================
+       EXACT UBER RECEIPT CANVAS (Matches Image Proportions)
+       ========================================================= */
     .receipt-page {
       width: 820px;
       min-height: 980px;
@@ -174,6 +174,7 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
+    /* 1. Top Header: Uber Wordmark & Date */
     .receipt-header {
       display: flex;
       justify-content: space-between;
@@ -195,6 +196,7 @@
       padding-right: 4px;
     }
 
+    /* 2. Title & Subtitle */
     .receipt-title {
       margin: 42px 0 0 1px;
       font-size: 27px;
@@ -211,15 +213,18 @@
       color: #6e6e6e;
     }
 
+    /* Inner Receipt Body (matches slight left indent of Total & rows) */
     .receipt-body {
       padding-left: 6px;
     }
 
+    /* Currency Formatting */
     .curr-gap {
       display: inline-block;
       margin-right: 5px;
     }
 
+    /* 3. Total Row */
     .total-row {
       display: flex;
       justify-content: space-between;
@@ -241,6 +246,7 @@
       color: #000000;
     }
 
+    /* 4. Trip Fare Row */
     .trip-fare-row {
       display: flex;
       justify-content: space-between;
@@ -252,6 +258,7 @@
       color: #6e6e6e;
     }
 
+    /* 5. Subtotal & Tolls Section */
     .subtotal-section {
       padding: 26px 0 46px 0;
       border-bottom: 1px solid #d4d4d4;
@@ -276,6 +283,7 @@
       color: #6e6e6e;
     }
 
+    /* 6. Amount Charged Section */
     .amount-charged-section {
       padding: 28px 0 25px 0;
       border-bottom: 1px solid #cccccc;
@@ -330,6 +338,7 @@
       line-height: 1;
     }
 
+    /* 7. Driver & Route Timeline Section */
     .driver-section {
       padding-top: 26px;
     }
@@ -347,8 +356,6 @@
       font-size: 13.5px;
       font-weight: 400;
       margin: 0 0 21px 0;
-      flex-wrap: wrap;
-      gap: 8px;
     }
 
     .service-name {
@@ -380,7 +387,6 @@
       align-items: baseline;
       font-size: 13px;
       line-height: 1.3;
-      gap: 4px;
     }
 
     .stop-row + .stop-row {
@@ -390,15 +396,132 @@
     .stop-time {
       color: #000000;
       font-weight: 400;
-      flex-shrink: 0;
+      margin-right: 3px;
     }
 
     .stop-address {
       color: #6e6e6e;
       font-weight: 400;
-      word-break: break-word;
     }
 
+    /* =========================================================
+       PHONE & TABLET SCREEN OPTIMIZATION (Screen Only)
+       ========================================================= */
+    @media only screen and (max-width: 960px) {
+      .app-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 16px 12px 36px 12px;
+      }
+
+      .editor-panel {
+        width: 100%;
+        max-width: 600px;
+        position: static;
+        max-height: none;
+        overflow-y: visible;
+        padding: 18px 16px;
+      }
+
+      .receipt-page {
+        width: 100%;
+        max-width: 600px;
+        min-height: auto;
+        padding: 36px 24px 48px 24px;
+        border-radius: 4px;
+      }
+    }
+
+    @media only screen and (max-width: 480px) {
+      /* 16px font-size prevents iOS Safari / Mobile Chrome auto-zoom on tap */
+      input[type="text"] {
+        font-size: 16px;
+        padding: 9px 10px;
+      }
+
+      .btn-preset {
+        padding: 10px 8px;
+        font-size: 12.5px;
+      }
+
+      .btn-print {
+        padding: 14px 16px;
+        font-size: 15px;
+      }
+
+      .receipt-page {
+        padding: 28px 18px 40px 18px;
+      }
+
+      .uber-logo {
+        height: 23px;
+      }
+
+      .receipt-date {
+        font-size: 12.5px;
+        padding-right: 0;
+      }
+
+      .receipt-title {
+        margin-top: 28px;
+        font-size: 22px;
+      }
+
+      .receipt-subtitle {
+        margin-top: 12px;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .receipt-body {
+        padding-left: 0;
+      }
+
+      .total-row {
+        margin-top: 30px;
+        padding-bottom: 18px;
+      }
+
+      .total-label,
+      .total-amount,
+      .charged-amount {
+        font-size: 18px;
+      }
+
+      .trip-fare-row {
+        padding: 20px 0 20px 2px;
+      }
+
+      .subtotal-section {
+        padding: 22px 0 34px 0;
+      }
+
+      .fees-row {
+        gap: 12px;
+      }
+
+      .service-name {
+        min-width: 72px;
+      }
+
+      .timeline-graphic {
+        width: 28px;
+      }
+
+      .stop-row {
+        flex-wrap: wrap;
+        line-height: 1.4;
+      }
+
+      .stop-time {
+        white-space: nowrap;
+      }
+    }
+
+    /* =========================================================
+       PRINT MEDIA RULES (Hides editor, prints exact receipt)
+       ========================================================= */
     @media print {
       @page {
         size: auto;
@@ -428,67 +551,12 @@
         box-shadow: none;
       }
     }
-
-    @media (max-width: 1200px) {
-      .app-wrapper {
-        flex-direction: column;
-        gap: 24px;
-        padding: 16px 12px;
-      }
-
-      .editor-panel {
-        width: 100%;
-        position: static;
-        max-height: none;
-      }
-
-      .receipt-page {
-        width: 100%;
-        min-height: auto;
-        padding: 40px 32px 60px 32px;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .app-wrapper {
-        padding: 12px 8px;
-      }
-
-      .editor-panel {
-        padding: 16px;
-      }
-
-      .receipt-page {
-        width: 100%;
-        padding: 28px 20px 40px 20px;
-      }
-
-      .receipt-title {
-        font-size: 18px;
-        margin-top: 24px;
-      }
-
-      .receipt-subtitle {
-        font-size: 11px;
-      }
-
-      .receipt-body {
-        padding-left: 0;
-      }
-
-      .total-row {
-        margin-top: 24px;
-      }
-
-      .stop-row {
-        font-size: 11px;
-      }
-    }
   </style>
 </head>
 <body>
 
   <div class="app-wrapper">
+    <!-- LEFT PANEL: INPUT CONTROLS (Hidden when printing) -->
     <div class="editor-panel">
       <h2>Receipt Details</h2>
       <p class="helper">Pre-loaded with your exact INR receipt details. Edit any field below or click Print / Save as PDF.</p>
@@ -612,28 +680,34 @@
       </button>
     </div>
 
+    <!-- RIGHT PANEL: EXACT RECEIPT PREVIEW & PRINT AREA -->
     <div class="receipt-page">
+      <!-- Header -->
       <div class="receipt-header">
         <svg class="uber-logo" viewBox="0 0 102 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Uber">
-          <path d="M13.2 28.4C19.2 28.4 22.4 24.4 22.4 18.2V3.2H27.2V32H22.6V28.6C20.5 31.1 17.2 32.6 13.0 32.6C5.6 32.6 0.6 27.4 0.6 19.2V3.2H5.4V18.6C5.4 24.6 8.4 28.4 13.2 28.4ZM33.4 3.2H38.0V13.8C39.4 12.7 41.5 12.1 44.1 12.1C49.1 12.1 52.2 14.8 52.2 19.5V32H47.4V20.5C47.4 17.1 45.8 15.2 42.9 15.2C39.5 15.2 38 17.5 38 20.9V32H33.4V3.2ZM57.1 32H52.3V3.2H57.1V32ZM72.1 3.2H76.7L85.9 26.9H85.6L94.8 3.2H99.6L88.3 32H83.2L72.1 3.2ZM61.8 20.2C61.8 14.1 66.1 9.4 72.4 9.4C78.7 9.4 83 14.1 83 20.2C83 26.3 78.7 31 72.4 31C66.1 31 61.8 26.3 61.8 20.2ZM66.6 20.2C66.6 24.1 68.9 26.6 72.4 26.6C75.9 26.6 78.2 24.1 78.2 20.2C78.2 16.3 75.9 13.8 72.4 13.8C68.9 13.8 66.6 16.3 66.6 20.2ZM1.5 32.9C0.7 32.9 0 32.2 0 31.4V3.1C0 1.5 1.5 0 3.1 0H10.3C17.9 0 22 4.2 22 11.2C22 17.8 17.9 22.1 10.7 22.1H5.3V31.4C5.3 32.2 4.6 32.9 3.8 32.9H1.5ZM5.3 18.1H10.2C14.9 18.1 17.3 15.9 17.3 11.4C17.3 6.6 14.9 4.5 10.2 4.5H5.3V18.1Z" fill="#000000"/>
+          <path d="M13.2 28.4C19.2 28.4 22.4 24.4 22.4 18.2V3.2H27.2V32H22.6V28.6C20.5 31.1 17.2 32.6 13.0 32.6C5.6 32.6 0.6 27.4 0.6 19.2V3.2H5.4V18.6C5.4 24.6 8.4 28.4 13.2 28.4ZM33.4 3.2H38.0V13.8C40.1 11.4 43.3 9.9 47.2 9.9C53.6 9.9 58.6 14.8 58.6 21.3C58.6 27.8 53.6 32.6 47.2 32.6C43.3 32.6 40.0 31.1 37.9 28.6V32H33.4V3.2ZM46.0 28.5C50.4 28.5 53.8 25.4 53.8 21.3C53.8 17.1 50.4 14.0 46.0 14.0C41.5 14.0 38.0 17.1 38.0 21.3C38.0 25.4 41.5 28.5 46.0 28.5ZM74.2 28.7C77.3 28.7 79.7 27.2 81.0 25.0L84.8 27.2C82.7 30.7 78.9 32.6 74.1 32.6C66.8 32.6 61.8 27.8 61.8 21.3C61.8 14.7 66.8 9.9 73.8 9.9C80.7 9.9 85.4 14.6 85.4 21.1C85.4 21.7 85.3 22.3 85.3 22.7H66.6C67.1 26.4 70.1 28.7 74.2 28.7ZM80.6 19.2C80.0 15.8 77.5 13.7 73.8 13.7C70.1 13.7 67.3 15.9 66.7 19.2H80.6ZM90.2 10.5H94.6V14.0C96.1 11.4 98.7 10.1 101.8 10.1V14.6H100.6C96.8 14.6 94.8 16.9 94.8 21.4V32H90.2V10.5Z" fill="#000000"/>
         </svg>
         <div class="receipt-date" id="out-date">Sun, Jun 1, 2025</div>
       </div>
 
+      <!-- Greeting -->
       <h1 class="receipt-title" id="out-title">Here's your updated ride receipt</h1>
       <p class="receipt-subtitle" id="out-subtitle">We hope you enjoyed your ride this afternoon.</p>
 
       <div class="receipt-body">
+        <!-- Total -->
         <div class="total-row">
           <span class="total-label">Total</span>
           <span class="total-amount" id="out-total"><span class="curr-gap">INR</span>3050.00</span>
         </div>
 
+        <!-- Trip Fare -->
         <div class="trip-fare-row">
           <span>Trip Fare</span>
           <span id="out-trip-fare"><span class="curr-gap">INR</span>3047.28</span>
         </div>
 
+        <!-- Subtotal & Tolls -->
         <div class="subtotal-section">
           <div class="subtotal-row">
             <span>Subtotal</span>
@@ -645,10 +719,12 @@
           </div>
         </div>
 
+        <!-- Amount Charged -->
         <div class="amount-charged-section">
           <div class="amount-charged-heading">Amount Charged</div>
           <div class="payment-row">
             <div class="card-info">
+              <!-- Exact Blue VISA Badge -->
               <svg class="visa-badge" viewBox="0 0 54 34" xmlns="http://www.w3.org/2000/svg" aria-label="VISA">
                 <rect width="54" height="34" rx="1.5" fill="#294798"/>
                 <text x="27" y="21.5" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-style="italic" font-size="13" letter-spacing="0.4">VISA</text>
@@ -659,6 +735,7 @@
           </div>
         </div>
 
+        <!-- Driver & Timeline -->
         <div class="driver-section">
           <div class="driver-line">You rode with <span id="out-driver">Piper</span></div>
           <div class="service-line">
@@ -667,6 +744,7 @@
           </div>
 
           <div class="timeline-container">
+            <!-- Route Timeline Graphic SVG -->
             <div class="timeline-graphic">
               <svg width="16" height="46" viewBox="0 0 16 46" xmlns="http://www.w3.org/2000/svg">
                 <line x1="6" y1="0" x2="6" y2="5" stroke="#d4d4d4" stroke-width="1" />
@@ -740,6 +818,7 @@
     function renderMoneyHTML(curr, val) {
       const cleanCurr = curr.trim();
       const cleanVal = val.trim() || '0.00';
+      // Alphabetic currency codes like INR get the exact visual space before the number; symbols like $ attach directly
       const isAlphaCode = /^[A-Za-z]+$/.test(cleanCurr);
       if (isAlphaCode) {
         return `<span class="curr-gap">${cleanCurr}</span>${cleanVal}`;
