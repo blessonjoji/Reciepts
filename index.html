@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Uber Ride Receipt Generator</title>
-  <!-- Load Google Font Roboto for exact typography match -->
+  <title>Uber Ride Receipt</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -25,7 +24,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* App Layout (Form on Left, Live Receipt on Right) */
     .app-wrapper {
       display: flex;
       min-height: 100vh;
@@ -35,14 +33,14 @@
       padding: 32px 24px;
     }
 
-    /* Form Sidebar (Hidden when printing) */
+    /* Left Editor Sidebar (Automatically hidden when printing) */
     .editor-panel {
-      width: 380px;
+      width: 390px;
       flex-shrink: 0;
       background: #ffffff;
       border: 1px solid #e5e7eb;
       border-radius: 10px;
-      padding: 24px;
+      padding: 22px;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
       position: sticky;
       top: 24px;
@@ -58,10 +56,33 @@
     }
 
     .editor-panel p.helper {
-      margin: 0 0 18px 0;
+      margin: 0 0 14px 0;
       font-size: 12.5px;
       color: #6b7280;
       line-height: 1.4;
+    }
+
+    .preset-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .btn-preset {
+      flex: 1;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: 'Roboto', sans-serif;
+      background: #f9fafb;
+      color: #111827;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-preset:hover {
+      background: #f3f4f6;
     }
 
     .section-label {
@@ -70,19 +91,19 @@
       text-transform: uppercase;
       letter-spacing: 0.6px;
       color: #4b5563;
-      margin: 18px 0 10px 0;
+      margin: 16px 0 10px 0;
       padding-bottom: 4px;
       border-bottom: 1px solid #e5e7eb;
     }
 
     .field-group {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .field-row {
       display: flex;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .field-row .field-group {
@@ -100,14 +121,13 @@
 
     input[type="text"] {
       width: 100%;
-      padding: 8px 10px;
+      padding: 7px 10px;
       font-size: 13px;
       font-family: 'Roboto', sans-serif;
       border: 1px solid #d1d5db;
       border-radius: 6px;
       color: #111827;
       outline: none;
-      transition: border-color 0.15s;
     }
 
     input[type="text"]:focus {
@@ -118,7 +138,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin: 6px 0 12px 0;
+      margin: 6px 0 10px 0;
       font-size: 12.5px;
       color: #374151;
       cursor: pointer;
@@ -126,7 +146,7 @@
 
     .btn-print {
       width: 100%;
-      margin-top: 16px;
+      margin-top: 14px;
       padding: 12px 16px;
       background-color: #000000;
       color: #ffffff;
@@ -136,7 +156,6 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.15s;
     }
 
     .btn-print:hover {
@@ -144,14 +163,13 @@
     }
 
     /* =========================================================
-       EXACT UBER RECEIPT CANVAS
-       Matches image dimensions, colors, borders, and spacing
+       EXACT UBER RECEIPT CANVAS (Matches Image Proportions)
        ========================================================= */
     .receipt-page {
-      width: 780px;
-      min-height: 977px;
+      width: 820px;
+      min-height: 980px;
       background-color: #ffffff;
-      padding: 18px 48px 140px 36px;
+      padding: 58px 88px 100px 82px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
@@ -166,21 +184,21 @@
 
     .uber-logo {
       display: block;
-      height: 28px;
+      height: 27px;
       width: auto;
     }
 
     .receipt-date {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 400;
       color: #6e6e6e;
-      letter-spacing: 0.1px;
+      padding-right: 4px;
     }
 
     /* 2. Title & Subtitle */
     .receipt-title {
-      margin: 44px 0 0 0;
-      font-size: 28px;
+      margin: 42px 0 0 1px;
+      font-size: 27px;
       font-weight: 400;
       color: #000000;
       line-height: 1.25;
@@ -188,10 +206,21 @@
     }
 
     .receipt-subtitle {
-      margin: 18px 0 0 0;
-      font-size: 14px;
+      margin: 17px 0 0 1px;
+      font-size: 13.5px;
       font-weight: 400;
       color: #6e6e6e;
+    }
+
+    /* Inner Receipt Body (matches slight left indent of Total & rows) */
+    .receipt-body {
+      padding-left: 6px;
+    }
+
+    /* Currency Formatting */
+    .curr-gap {
+      display: inline-block;
+      margin-right: 5px;
     }
 
     /* 3. Total Row */
@@ -199,14 +228,19 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-top: 46px;
+      margin-top: 44px;
       padding-bottom: 22px;
       border-bottom: 1.5px solid #222222;
     }
 
-    .total-label,
+    .total-label {
+      font-size: 20px;
+      font-weight: 400;
+      color: #000000;
+    }
+
     .total-amount {
-      font-size: 21px;
+      font-size: 20px;
       font-weight: 400;
       color: #000000;
     }
@@ -216,16 +250,16 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 26px 0;
+      padding: 25px 0 24px 6px;
       border-bottom: 1px solid #cccccc;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 400;
       color: #6e6e6e;
     }
 
     /* 5. Subtotal & Tolls Section */
     .subtotal-section {
-      padding: 28px 0 46px 0;
+      padding: 26px 0 46px 0;
       border-bottom: 1px solid #d4d4d4;
     }
 
@@ -233,32 +267,32 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 400;
       color: #000000;
-      margin-bottom: 18px;
+      margin-bottom: 17px;
     }
 
     .fees-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 400;
       color: #6e6e6e;
     }
 
     /* 6. Amount Charged Section */
     .amount-charged-section {
-      padding: 28px 0 26px 0;
+      padding: 28px 0 25px 0;
       border-bottom: 1px solid #cccccc;
     }
 
     .amount-charged-heading {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 400;
       color: #000000;
-      margin: 0 0 20px 0;
+      margin: 0 0 19px 0;
     }
 
     .payment-row {
@@ -270,61 +304,62 @@
     .card-info {
       display: flex;
       align-items: flex-end;
-      gap: 9px;
+      gap: 5px;
     }
 
     .visa-badge {
-      width: 40px;
-      height: 25px;
+      width: 38px;
+      height: 24px;
       display: block;
       flex-shrink: 0;
     }
 
     .card-digits {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 400;
       color: #000000;
       line-height: 1;
       padding-bottom: 2px;
-      letter-spacing: 0.2px;
     }
 
     .card-dots {
       display: inline-block;
       letter-spacing: 1.5px;
       margin-right: 4px;
-      font-size: 12px;
+      font-size: 11.5px;
       vertical-align: baseline;
     }
 
     .charged-amount {
-      font-size: 21px;
+      font-size: 20px;
       font-weight: 400;
-      color: #6e6e6e;
+      color: #606060;
       line-height: 1;
     }
 
     /* 7. Driver & Route Timeline Section */
     .driver-section {
-      padding-top: 28px;
+      padding-top: 26px;
     }
 
     .driver-line {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 400;
       color: #000000;
       margin: 0 0 18px 0;
     }
 
     .service-line {
-      font-size: 14px;
+      display: flex;
+      align-items: baseline;
+      font-size: 13.5px;
       font-weight: 400;
-      margin: 0 0 22px 0;
+      margin: 0 0 21px 0;
     }
 
     .service-name {
       color: #000000;
-      margin-right: 16px;
+      min-width: 90px;
     }
 
     .service-stats {
@@ -337,9 +372,9 @@
     }
 
     .timeline-graphic {
-      width: 46px;
+      width: 44px;
       flex-shrink: 0;
-      padding-top: 3px;
+      padding-top: 2px;
     }
 
     .timeline-stops {
@@ -349,19 +384,18 @@
     .stop-row {
       display: flex;
       align-items: baseline;
-      font-size: 13.5px;
+      font-size: 13px;
       line-height: 1.3;
     }
 
     .stop-row + .stop-row {
-      margin-top: 17px;
+      margin-top: 16px;
     }
 
     .stop-time {
-      display: inline-block;
-      min-width: 62px;
       color: #000000;
       font-weight: 400;
+      margin-right: 3px;
     }
 
     .stop-address {
@@ -370,12 +404,12 @@
     }
 
     /* =========================================================
-       PRINT STYLES (Hides form, prints exact receipt)
+       PRINT MEDIA RULES (Hides editor, prints exact receipt)
        ========================================================= */
     @media print {
       @page {
         size: auto;
-        margin: 12mm;
+        margin: 10mm;
       }
 
       body {
@@ -394,10 +428,10 @@
 
       .receipt-page {
         width: 100%;
-        max-width: 740px;
+        max-width: 780px;
         min-height: auto;
         margin: 0 auto;
-        padding: 10px 24px 40px 24px;
+        padding: 36px 56px 40px 52px;
         box-shadow: none;
       }
     }
@@ -406,19 +440,24 @@
 <body>
 
   <div class="app-wrapper">
-    <!-- LEFT PANEL: DETAILS FORM (Hidden on Print) -->
+    <!-- LEFT PANEL: INPUT CONTROLS (Hidden when printing) -->
     <div class="editor-panel">
       <h2>Receipt Details</h2>
-      <p class="helper">Enter your ride details below. The receipt preview updates automatically and prints identically to the original.</p>
+      <p class="helper">Pre-loaded with your exact INR receipt details. Edit any field below or click Print / Save as PDF.</p>
+
+      <div class="preset-bar">
+        <button type="button" class="btn-preset" onclick="loadPreset('INR')">Load INR Receipt (Piper)</button>
+        <button type="button" class="btn-preset" onclick="loadPreset('USD')">Load USD Receipt (Riya)</button>
+      </div>
 
       <div class="section-label">Header &amp; Greeting</div>
       <div class="field-group">
         <label for="in-date">Ride Date</label>
-        <input type="text" id="in-date" value="Tue, Aug 18, 2020" />
+        <input type="text" id="in-date" value="Sun, Jun 1, 2025" />
       </div>
       <div class="field-group">
         <label for="in-title">Receipt Heading</label>
-        <input type="text" id="in-title" value="Here’s your updated ride receipt" />
+        <input type="text" id="in-title" value="Here's your updated ride receipt" />
       </div>
       <div class="field-group">
         <label for="in-subtitle">Greeting Message</label>
@@ -427,24 +466,24 @@
 
       <div class="section-label">Fare Breakdown</div>
       <div class="field-row">
-        <div class="field-group" style="max-width: 80px;">
+        <div class="field-group" style="max-width: 90px;">
           <label for="in-currency">Currency</label>
-          <input type="text" id="in-currency" value="$" />
+          <input type="text" id="in-currency" value="INR" />
         </div>
         <div class="field-group">
           <label for="in-trip-fare">Trip Fare</label>
-          <input type="text" id="in-trip-fare" value="15.59" />
+          <input type="text" id="in-trip-fare" value="3047.28" />
         </div>
       </div>
 
       <div class="field-row">
         <div class="field-group">
           <label for="in-subtotal">Subtotal</label>
-          <input type="text" id="in-subtotal" value="15.59" />
+          <input type="text" id="in-subtotal" value="3047.28" />
         </div>
         <div class="field-group">
           <label for="in-fees-amt">Tolls / Fees Amount</label>
-          <input type="text" id="in-fees-amt" value="2.52" />
+          <input type="text" id="in-fees-amt" value="2.72" />
         </div>
       </div>
 
@@ -461,62 +500,62 @@
       <div class="field-row">
         <div class="field-group">
           <label for="in-total">Total</label>
-          <input type="text" id="in-total" value="18.11" />
+          <input type="text" id="in-total" value="3050.00" />
         </div>
         <div class="field-group">
           <label for="in-charged">Amount Charged</label>
-          <input type="text" id="in-charged" value="18.11" />
+          <input type="text" id="in-charged" value="3050.00" />
         </div>
       </div>
 
       <div class="section-label">Payment Method</div>
       <div class="field-group">
         <label for="in-card">Card Last 4 Digits</label>
-        <input type="text" id="in-card" value="9993" />
+        <input type="text" id="in-card" value="5452" />
       </div>
 
       <div class="section-label">Driver &amp; Trip Route</div>
       <div class="field-row">
         <div class="field-group">
           <label for="in-driver">Driver Name</label>
-          <input type="text" id="in-driver" value="Riya" />
+          <input type="text" id="in-driver" value="Piper" />
         </div>
         <div class="field-group">
           <label for="in-service">Ride Type</label>
-          <input type="text" id="in-service" value="UberX" />
+          <input type="text" id="in-service" value="UberXL" />
         </div>
       </div>
 
       <div class="field-row">
         <div class="field-group">
           <label for="in-distance">Distance</label>
-          <input type="text" id="in-distance" value="1.1 miles" />
+          <input type="text" id="in-distance" value="90.77 KM" />
         </div>
         <div class="field-group">
           <label for="in-duration">Duration</label>
-          <input type="text" id="in-duration" value="21 min" />
+          <input type="text" id="in-duration" value="2 hour 15 min" />
         </div>
       </div>
 
       <div class="field-row">
         <div class="field-group" style="max-width: 110px;">
           <label for="in-pickup-time">Pickup Time</label>
-          <input type="text" id="in-pickup-time" value="12:53 PM" />
+          <input type="text" id="in-pickup-time" value="10:05 AM" />
         </div>
         <div class="field-group">
           <label for="in-pickup-addr">Pickup Address</label>
-          <input type="text" id="in-pickup-addr" value="2500 Broadway Ave, Boulder CO" />
+          <input type="text" id="in-pickup-addr" value="Kanjikuzhi, Kottayam, Kerala 686002" />
         </div>
       </div>
 
       <div class="field-row">
         <div class="field-group" style="max-width: 110px;">
           <label for="in-dropoff-time">Drop-off Time</label>
-          <input type="text" id="in-dropoff-time" value="1:14 PM" />
+          <input type="text" id="in-dropoff-time" value="12:20 PM" />
         </div>
         <div class="field-group">
           <label for="in-dropoff-addr">Drop-off Address</label>
-          <input type="text" id="in-dropoff-addr" value="912 Juniper Ave, Boulder CO" />
+          <input type="text" id="in-dropoff-addr" value="Airport rd, Nedumbassery, Kerala 683111" />
         </div>
       </div>
 
@@ -529,88 +568,85 @@
     <div class="receipt-page">
       <!-- Header -->
       <div class="receipt-header">
-        <!-- Exact Uber Wordmark SVG -->
         <svg class="uber-logo" viewBox="0 0 102 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Uber">
           <path d="M13.2 28.4C19.2 28.4 22.4 24.4 22.4 18.2V3.2H27.2V32H22.6V28.6C20.5 31.1 17.2 32.6 13.0 32.6C5.6 32.6 0.6 27.4 0.6 19.2V3.2H5.4V18.6C5.4 24.6 8.4 28.4 13.2 28.4ZM33.4 3.2H38.0V13.8C40.1 11.4 43.3 9.9 47.2 9.9C53.6 9.9 58.6 14.8 58.6 21.3C58.6 27.8 53.6 32.6 47.2 32.6C43.3 32.6 40.0 31.1 37.9 28.6V32H33.4V3.2ZM46.0 28.5C50.4 28.5 53.8 25.4 53.8 21.3C53.8 17.1 50.4 14.0 46.0 14.0C41.5 14.0 38.0 17.1 38.0 21.3C38.0 25.4 41.5 28.5 46.0 28.5ZM74.2 28.7C77.3 28.7 79.7 27.2 81.0 25.0L84.8 27.2C82.7 30.7 78.9 32.6 74.1 32.6C66.8 32.6 61.8 27.8 61.8 21.3C61.8 14.7 66.8 9.9 73.8 9.9C80.7 9.9 85.4 14.6 85.4 21.1C85.4 21.7 85.3 22.3 85.3 22.7H66.6C67.1 26.4 70.1 28.7 74.2 28.7ZM80.6 19.2C80.0 15.8 77.5 13.7 73.8 13.7C70.1 13.7 67.3 15.9 66.7 19.2H80.6ZM90.2 10.5H94.6V14.0C96.1 11.4 98.7 10.1 101.8 10.1V14.6H100.6C96.8 14.6 94.8 16.9 94.8 21.4V32H90.2V10.5Z" fill="#000000"/>
         </svg>
-        <div class="receipt-date" id="out-date">Tue, Aug 18, 2020</div>
+        <div class="receipt-date" id="out-date">Sun, Jun 1, 2025</div>
       </div>
 
       <!-- Greeting -->
-      <h1 class="receipt-title" id="out-title">Here’s your updated ride receipt</h1>
+      <h1 class="receipt-title" id="out-title">Here's your updated ride receipt</h1>
       <p class="receipt-subtitle" id="out-subtitle">We hope you enjoyed your ride this afternoon.</p>
 
-      <!-- Total -->
-      <div class="total-row">
-        <span class="total-label">Total</span>
-        <span class="total-amount" id="out-total">$18.11</span>
-      </div>
-
-      <!-- Trip Fare -->
-      <div class="trip-fare-row">
-        <span>Trip Fare</span>
-        <span id="out-trip-fare">$15.59</span>
-      </div>
-
-      <!-- Subtotal & Tolls -->
-      <div class="subtotal-section">
-        <div class="subtotal-row">
-          <span>Subtotal</span>
-          <span id="out-subtotal">$15.59</span>
+      <div class="receipt-body">
+        <!-- Total -->
+        <div class="total-row">
+          <span class="total-label">Total</span>
+          <span class="total-amount" id="out-total"><span class="curr-gap">INR</span>3050.00</span>
         </div>
-        <div class="fees-row">
-          <span id="out-fees-label">Tolls, Surcharges and Fees</span>
-          <span id="out-fees-amt">$2.52</span>
-        </div>
-      </div>
 
-      <!-- Amount Charged -->
-      <div class="amount-charged-section">
-        <div class="amount-charged-heading">Amount Charged</div>
-        <div class="payment-row">
-          <div class="card-info">
-            <!-- Exact Navy VISA Badge SVG -->
-            <svg class="visa-badge" viewBox="0 0 54 34" xmlns="http://www.w3.org/2000/svg" aria-label="VISA">
-              <rect width="54" height="34" rx="3" fill="#192064"/>
-              <text x="27" y="22" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-style="italic" font-size="13.5" letter-spacing="0.4">VISA</text>
-            </svg>
-            <span class="card-digits"><span class="card-dots">&#8226;&#8226;&#8226;&#8226;</span><span id="out-card">9993</span></span>
+        <!-- Trip Fare -->
+        <div class="trip-fare-row">
+          <span>Trip Fare</span>
+          <span id="out-trip-fare"><span class="curr-gap">INR</span>3047.28</span>
+        </div>
+
+        <!-- Subtotal & Tolls -->
+        <div class="subtotal-section">
+          <div class="subtotal-row">
+            <span>Subtotal</span>
+            <span id="out-subtotal"><span class="curr-gap">INR</span>3047.28</span>
           </div>
-          <div class="charged-amount" id="out-charged">$18.11</div>
-        </div>
-      </div>
-
-      <!-- Driver & Timeline -->
-      <div class="driver-section">
-        <div class="driver-line">You rode with <span id="out-driver">Riya</span></div>
-        <div class="service-line">
-          <span class="service-name" id="out-service">UberX</span>
-          <span class="service-stats"><span id="out-distance">1.1 miles</span> | <span id="out-duration">21 min</span></span>
-        </div>
-
-        <div class="timeline-container">
-          <!-- Exact Route Timeline Graphic SVG -->
-          <div class="timeline-graphic">
-            <svg width="16" height="48" viewBox="0 0 16 48" xmlns="http://www.w3.org/2000/svg">
-              <!-- Faint top lead-in tick -->
-              <line x1="6" y1="0" x2="6" y2="5" stroke="#d4d4d4" stroke-width="1" />
-              <!-- Pickup black square -->
-              <rect x="2" y="5" width="8" height="8" fill="#000000" />
-              <!-- Connecting vertical line -->
-              <line x1="6" y1="13" x2="6" y2="35" stroke="#333333" stroke-width="1.2" />
-              <!-- Drop-off black square -->
-              <rect x="2" y="35" width="8" height="8" fill="#000000" />
-            </svg>
+          <div class="fees-row">
+            <span id="out-fees-label">Tolls, Surcharges and Fees</span>
+            <span id="out-fees-amt"><span class="curr-gap">INR</span>2.72</span>
           </div>
+        </div>
 
-          <div class="timeline-stops">
-            <div class="stop-row">
-              <span class="stop-time" id="out-pickup-time">12:53 PM</span>
-              <span class="stop-address">| <span id="out-pickup-addr">2500 Broadway Ave, Boulder CO</span></span>
+        <!-- Amount Charged -->
+        <div class="amount-charged-section">
+          <div class="amount-charged-heading">Amount Charged</div>
+          <div class="payment-row">
+            <div class="card-info">
+              <!-- Exact Blue VISA Badge -->
+              <svg class="visa-badge" viewBox="0 0 54 34" xmlns="http://www.w3.org/2000/svg" aria-label="VISA">
+                <rect width="54" height="34" rx="1.5" fill="#294798"/>
+                <text x="27" y="21.5" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-style="italic" font-size="13" letter-spacing="0.4">VISA</text>
+              </svg>
+              <span class="card-digits"><span class="card-dots">&#8226;&#8226;&#8226;&#8226;</span><span id="out-card">5452</span></span>
             </div>
-            <div class="stop-row">
-              <span class="stop-time" id="out-dropoff-time">1:14 PM</span>
-              <span class="stop-address">| <span id="out-dropoff-addr">912 Juniper Ave, Boulder CO</span></span>
+            <div class="charged-amount" id="out-charged"><span class="curr-gap">INR</span>3050.00</div>
+          </div>
+        </div>
+
+        <!-- Driver & Timeline -->
+        <div class="driver-section">
+          <div class="driver-line">You rode with <span id="out-driver">Piper</span></div>
+          <div class="service-line">
+            <span class="service-name" id="out-service">UberXL</span>
+            <span class="service-stats"><span id="out-distance">90.77 KM</span> | <span id="out-duration">2 hour 15 min</span></span>
+          </div>
+
+          <div class="timeline-container">
+            <!-- Route Timeline Graphic SVG -->
+            <div class="timeline-graphic">
+              <svg width="16" height="46" viewBox="0 0 16 46" xmlns="http://www.w3.org/2000/svg">
+                <line x1="6" y1="0" x2="6" y2="5" stroke="#d4d4d4" stroke-width="1" />
+                <rect x="2.5" y="5" width="7" height="7" fill="#000000" />
+                <line x1="6" y1="12" x2="6" y2="34" stroke="#333333" stroke-width="1.1" />
+                <rect x="2.5" y="34" width="7" height="7" fill="#000000" />
+              </svg>
+            </div>
+
+            <div class="timeline-stops">
+              <div class="stop-row">
+                <span class="stop-time" id="out-pickup-time">10:05 AM</span>
+                <span class="stop-address">| <span id="out-pickup-addr">Kanjikuzhi, Kottayam, Kerala 686002</span></span>
+              </div>
+              <div class="stop-row">
+                <span class="stop-time" id="out-dropoff-time">12:20 PM</span>
+                <span class="stop-address">| <span id="out-dropoff-addr">Airport rd, Nedumbassery, Kerala 683111</span></span>
+              </div>
             </div>
           </div>
         </div>
@@ -663,21 +699,24 @@
       dropoffAddr: document.getElementById('out-dropoff-addr')
     };
 
-    function formatMoney(curr, val) {
-      const trimmed = val.trim();
-      if (!trimmed) return curr + '0.00';
-      return curr + trimmed;
+    function renderMoneyHTML(curr, val) {
+      const cleanCurr = curr.trim();
+      const cleanVal = val.trim() || '0.00';
+      // Alphabetic currency codes like INR get the exact visual space before the number; symbols like $ attach directly
+      const isAlphaCode = /^[A-Za-z]+$/.test(cleanCurr);
+      if (isAlphaCode) {
+        return `<span class="curr-gap">${cleanCurr}</span>${cleanVal}`;
+      }
+      return `${cleanCurr}${cleanVal}`;
     }
 
     function updateReceipt(sourceField) {
       const curr = fields.currency.value;
 
-      // Sync Subtotal with Trip Fare when Trip Fare is edited directly
       if (sourceField === fields.tripFare) {
         fields.subtotal.value = fields.tripFare.value;
       }
 
-      // Auto-calculate Total if checked
       if (fields.autoTotal.checked) {
         const subNum = parseFloat(fields.subtotal.value) || 0;
         const feeNum = parseFloat(fields.feesAmt.value) || 0;
@@ -694,12 +733,12 @@
       outputs.date.textContent = fields.date.value;
       outputs.title.textContent = fields.title.value;
       outputs.subtitle.textContent = fields.subtitle.value;
-      outputs.tripFare.textContent = formatMoney(curr, fields.tripFare.value);
-      outputs.subtotal.textContent = formatMoney(curr, fields.subtotal.value);
+      outputs.tripFare.innerHTML = renderMoneyHTML(curr, fields.tripFare.value);
+      outputs.subtotal.innerHTML = renderMoneyHTML(curr, fields.subtotal.value);
       outputs.feesLabel.textContent = fields.feesLabel.value;
-      outputs.feesAmt.textContent = formatMoney(curr, fields.feesAmt.value);
-      outputs.total.textContent = formatMoney(curr, fields.total.value);
-      outputs.charged.textContent = formatMoney(curr, fields.charged.value);
+      outputs.feesAmt.innerHTML = renderMoneyHTML(curr, fields.feesAmt.value);
+      outputs.total.innerHTML = renderMoneyHTML(curr, fields.total.value);
+      outputs.charged.innerHTML = renderMoneyHTML(curr, fields.charged.value);
       outputs.card.textContent = fields.card.value;
       outputs.driver.textContent = fields.driver.value;
       outputs.service.textContent = fields.service.value;
@@ -711,12 +750,56 @@
       outputs.dropoffAddr.textContent = fields.dropoffAddr.value;
     }
 
+    function loadPreset(type) {
+      if (type === 'INR') {
+        fields.date.value = 'Sun, Jun 1, 2025';
+        fields.title.value = "Here's your updated ride receipt";
+        fields.subtitle.value = 'We hope you enjoyed your ride this afternoon.';
+        fields.currency.value = 'INR';
+        fields.tripFare.value = '3047.28';
+        fields.subtotal.value = '3047.28';
+        fields.feesLabel.value = 'Tolls, Surcharges and Fees';
+        fields.feesAmt.value = '2.72';
+        fields.total.value = '3050.00';
+        fields.charged.value = '3050.00';
+        fields.card.value = '5452';
+        fields.driver.value = 'Piper';
+        fields.service.value = 'UberXL';
+        fields.distance.value = '90.77 KM';
+        fields.duration.value = '2 hour 15 min';
+        fields.pickupTime.value = '10:05 AM';
+        fields.pickupAddr.value = 'Kanjikuzhi, Kottayam, Kerala 686002';
+        fields.dropoffTime.value = '12:20 PM';
+        fields.dropoffAddr.value = 'Airport rd, Nedumbassery, Kerala 683111';
+      } else if (type === 'USD') {
+        fields.date.value = 'Tue, Aug 18, 2020';
+        fields.title.value = "Here's your updated ride receipt";
+        fields.subtitle.value = 'We hope you enjoyed your ride this afternoon.';
+        fields.currency.value = '$';
+        fields.tripFare.value = '15.59';
+        fields.subtotal.value = '15.59';
+        fields.feesLabel.value = 'Tolls, Surcharges and Fees';
+        fields.feesAmt.value = '2.52';
+        fields.total.value = '18.11';
+        fields.charged.value = '18.11';
+        fields.card.value = '9993';
+        fields.driver.value = 'Riya';
+        fields.service.value = 'UberX';
+        fields.distance.value = '1.1 miles';
+        fields.duration.value = '21 min';
+        fields.pickupTime.value = '12:53 PM';
+        fields.pickupAddr.value = '2500 Broadway Ave, Boulder CO';
+        fields.dropoffTime.value = '1:14 PM';
+        fields.dropoffAddr.value = '912 Juniper Ave, Boulder CO';
+      }
+      updateReceipt();
+    }
+
     Object.values(fields).forEach((input) => {
       input.addEventListener('input', (e) => updateReceipt(e.target));
       input.addEventListener('change', (e) => updateReceipt(e.target));
     });
 
-    // Initialize on page load
     updateReceipt();
   </script>
 </body>
